@@ -18,24 +18,29 @@ except ImportError:
 
 ### Constants
 
-url = 'https://cadatacatalog.state.gov/storage/f/2013-11-24T20:56:10.098Z/validpassportsbyyear.json'
-validpassport_json = 'validpassportsbyyear.json'
+url = 'https://www.quandl.com/api/v3/datasets/FED/RXI_US_N_A_UK/data.json?api_key=EokXzvzzx1wvJV9xGzmk'
+currency_json = 'currency.json'
 
-if not os.path.isfile(validpassport_json):
-    with urlopen(url) as f:
-        text = f.read()
-        decoded_text = text.decode('utf8')
-        data =  json.loads(decoded_text)
+if not os.path.isfile(currency_json):
+    f = urlopen(url)
+    text = f.read()
+    decoded_text = text.decode('utf8')
+    data =  json.loads(decoded_text)
     print('Requested JSON and converted to python dictionary')
 
-    with open(validpassport_json, 'w+') as f:
+    with open(currency_json, 'w+') as f:
         json.dump(data, f)
     print('Saved JSON to file')
 
 else:
-    with open(validpassport_json, 'r+') as f:
+    with open(currency_json, 'r+') as f:
         data = json.load(f)
-    print('File {fn} opened. Time to get to work.'.format(fn=validpassport_json))
+    print('File {fn} opened. Time to get to work.'.format(fn=currency_json))
+
+
+print "Date         Value"
+for i in xrange(0,len(data['dataset_data']['data'])):
+    print data['dataset_data']['data'][i][0], "  ", data['dataset_data']['data'][i][1] 
 
 #print(data)
 
